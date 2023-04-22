@@ -3,11 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ItemsController } from './items/items.controller';
 import { ItemsService } from './items/items.service';
-import { DadaController } from './dada/dada.controller';
+import { ItemsModule } from './items/items.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import config from './config/keys';
+//import { DadaController } from './dada/dada.controller';
 
 @Module({
-  imports: [],
-  controllers: [AppController, ItemsController, DadaController],
+  imports: [ItemsModule, MongooseModule.forRoot(config.mongoURI)],
+  controllers: [AppController, ItemsController],
   providers: [AppService, ItemsService],
 })
 export class AppModule {}

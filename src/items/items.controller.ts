@@ -1,22 +1,21 @@
 import { Controller, Get, Post, Put, Delete, Body, Req, Res, Param } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item-dto';
 import { Request, Response } from 'express';
-
+import { ItemsService } from './items.service';
+import { Item } from './interfaces/item.interface';
 
 @Controller('items')
 export class ItemsController {
+  constructor(private readonly itemsService: ItemsService){}
+
   @Get()
-  // findAll(@Req() req: Request, @Res() res: Response): Response {
-  //   console.log(req.url);
-  //   return res.send("Check");
-  // }
-  findAll(): string {
-    return 'Got all items'
+  findAll(): Promise<Item[]> {
+    return this.itemsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param() param): string {
-    return `Item: ${param.id}`;
+  findOne(@Param() param): Promise<Item> {
+    return this.itemsService.findOne(param.id);
   }
 
   @Post()
